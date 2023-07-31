@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CoverGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Novel=Star destroyer\" Title=Vol01"
+    }
+  }
+}
