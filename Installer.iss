@@ -45,17 +45,17 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]                                        
-Source: ".\{#MyAppName2}\bin\Release\*.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\{#MyAppName2}\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\{#MyAppName2}\bin\Release\*.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\{#MyAppName2}\bin\Release\Resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: ".\{#MyAppName2}\bin\Release\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\{#MyAppName2}\bin\Release\net7.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyAppName2}\bin\Release\net7.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyAppName2}\bin\Release\net7.0-windows\*.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyAppName2}\bin\Release\net7.0-windows\Resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\{#MyAppName2}\bin\Release\net7.0-windows\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
-Source: ".\{#MyAppName}\bin\Release\*.json"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\{#MyAppName}\bin\Release\*.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\{#MyAppName}\bin\Release\BookCompiler.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\{#MyAppName}\bin\Release\Resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: ".\{#MyAppName}\bin\Release\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\{#MyAppName}\bin\Release\net7.0-windows\*.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyAppName}\bin\Release\net7.0-windows\*.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyAppName}\bin\Release\net7.0-windows\BookCompiler.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\{#MyAppName}\bin\Release\net7.0-windows\Resources\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\{#MyAppName}\bin\Release\net7.0-windows\runtimes\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: ".\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion             
 Source: ".\pttb.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files   
