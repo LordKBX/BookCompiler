@@ -8,34 +8,24 @@ using Microsoft.Web.WebView2.Core;
 using Tools;
 using SharpCompress.Writers.Zip;
 using File = System.IO.File;
+using System.Windows.Forms;
+using BookCompiler.Properties;
 
 namespace BookCompiler
 {
     public partial class Form1 : Form
     {
-        List<Preset> presets = new List<Preset>() {
-            new Preset(){ Name="" },
-            new Preset(){
-                Name="systemtranslation.com",
-                IndexTitle = "h1.entry-title",
-                IndexParent = "div.eplisterfull ul",
-                IndexObject = "li",
-                IndexObjectRegex = "<a href=\"([A-Za-z0-9\\-_\\|\\&\\^\\:\\/\\.]{1,800})\">[ \n\r\t]{1,20}<div class=\"epl\\-num\">(.*)<\\/div>[ \n\r\t]{1,20}<div class=\"epl\\-title\">(.*)<\\/div>[ \n\r\t]{1,20}<div",
-                IndexTemplateLink = "$1",
-                IndexTemplateName = "$2 $3",
-                IndexOrderDescendent = true,
-                IndexImageObject = "div.bigcover img",
+        public Microsoft.Win32.RegistryKey key;
+        public Microsoft.Win32.RegistryKey presetsKey;
+        string keyPresets = "Presets";
 
-                PageParent = "div.entry-content",
-                //PageExcluded = "p.has-text-align-center",
-                PageExcluded = "p.has-text-align-center, div.entry-content div",
-                PageProtected = false
-            },
+        public List<Preset> presets = new List<Preset>() {
+            new Preset(){ Name="" }
         };
 
         static readonly string defaultTheme = "clear";
         string lastTheme = "clear";
-        Theme? currentTheme;
+        public Theme? currentTheme;
 
         List<ChapterReference> chaptersList = new List<ChapterReference>();
         int chapterIndex = int.MaxValue;
@@ -45,7 +35,94 @@ namespace BookCompiler
         public Form1()
         {
             InitializeComponent();
-            LoadTheme(lastTheme);
+
+            FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(typeof(Form1).Assembly.Location);
+            if (versionInfo == null) { return; }
+            Microsoft.Win32.RegistryKey? SoftwareKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE", true);
+            Microsoft.Win32.RegistryKey? CompanyKey = null;
+
+            if (SoftwareKey == null) { return; }
+
+            string[] tl = SoftwareKey.GetSubKeyNames();
+            try
+            {
+                string wnode = "Wow6432Node";
+                if (tl.Contains(wnode))
+                {
+                    try { SoftwareKey = SoftwareKey.OpenSubKey(wnode, true); }
+                    catch (System.Security.SecurityException ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+                }
+
+                if (SoftwareKey == null) { throw new Exception("SoftwareKey not opened"); }
+                tl = SoftwareKey.GetSubKeyNames();
+                Debug.WriteLine(JsonConvert.SerializeObject(tl));
+                if (tl.Contains(versionInfo.CompanyName)) { CompanyKey = SoftwareKey.OpenSubKey(versionInfo.CompanyName, true); }
+                else { CompanyKey = SoftwareKey.CreateSubKey(versionInfo.CompanyName, true); }
+
+                if (CompanyKey == null) { throw new Exception("CompanyKey not opened"); }
+                tl = CompanyKey.GetSubKeyNames();
+                if (tl.Contains(versionInfo.ProductName)) { key = CompanyKey.OpenSubKey(versionInfo.ProductName, true); }
+                else
+                {
+                    key = CompanyKey.CreateSubKey(versionInfo.ProductName, true);
+                }
+                Debug.WriteLine("REGISTRY IN Wow6432Node MODE");
+                key.SetValue("Test", Guid.NewGuid().ToString());
+            }
+            catch (Exception)
+            {
+                SoftwareKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE");
+                if (SoftwareKey == null) { return; }
+                tl = SoftwareKey.GetSubKeyNames();
+                Debug.WriteLine(JsonConvert.SerializeObject(tl));
+                if (tl.Contains(versionInfo.CompanyName)) { CompanyKey = SoftwareKey.OpenSubKey(versionInfo.CompanyName, true); }
+                else { CompanyKey = SoftwareKey.CreateSubKey(versionInfo.CompanyName, true); }
+
+                if (CompanyKey == null) { return; }
+                tl = CompanyKey.GetSubKeyNames();
+                if (tl.Contains(versionInfo.ProductName)) { key = CompanyKey.OpenSubKey(versionInfo.ProductName, true); }
+                else
+                {
+                    key = CompanyKey.CreateSubKey(versionInfo.ProductName, true);
+                }
+                Debug.WriteLine("REGISTRY IN Classic MODE");
+                key.SetValue("Test", Guid.NewGuid().ToString());
+            }
+
+            lastTheme = key.GetValue("Theme", defaultTheme) as string;
+
+            presetsKey = null;
+            if (key.GetSubKeyNames().Contains(keyPresets)) { presetsKey = key.OpenSubKey(keyPresets, true); }
+            else { presetsKey = key.CreateSubKey(keyPresets, true); }
+            if (presetsKey == null) { return; }
+            string[] presetsKeys = presetsKey.GetValueNames();
+            foreach (string pkey in presetsKeys)
+            {
+                if (pkey == "") { continue; }
+                try { presets.Add(JsonConvert.DeserializeObject<Preset>(presetsKey.GetValue(pkey) as string)); }
+                catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+            }
+            if (presets.Count == 1)
+            {
+                presets.Add(new Preset()
+                {
+                    Name = "systemtranslation.com",
+                    IndexTitle = "h1.entry-title",
+                    IndexParent = "div.eplisterfull ul",
+                    IndexObject = "li",
+                    IndexObjectRegex = "<a href=\"([A-Za-z0-9\\-_\\|\\&\\^\\:\\/\\.]{1,800})\">[ \n\r\t]{1,20}<div class=\"epl\\-num\">(.*)<\\/div>[ \n\r\t]{1,20}<div class=\"epl\\-title\">(.*)<\\/div>[ \n\r\t]{1,20}<div",
+                    IndexTemplateLink = "$1",
+                    IndexTemplateName = "$2 $3",
+                    IndexOrderDescendent = true,
+                    IndexImageObject = "div.bigcover img",
+
+                    PageParent = "div.entry-content",
+                    //PageExcluded = "p.has-text-align-center",
+                    PageExcluded = "p.has-text-align-center, div.entry-content div",
+                    PageProtected = false
+                });
+            }
+
             if (lastTheme == defaultTheme) { clearToolStripMenuItem.Checked = true; blackToolStripMenuItem.Checked = false; }
             else { clearToolStripMenuItem.Checked = false; blackToolStripMenuItem.Checked = true; }
 
@@ -53,10 +130,37 @@ namespace BookCompiler
             IndexPresetComboBox.SelectedIndex = 0;
             IndexPresetComboBox.SelectedIndexChanged += IndexPresetComboBox_SelectedIndexChanged;
 
-            UrlBox.Text = "https://systemtranslation.com/series/fairy-tail-collapsing-stars/";
-            SetUrl(UrlBox.Text);
+            SetUrl("https://systemtranslation.com/series/fairy-tail-collapsing-stars/");
 
             webView.NavigationCompleted += WebView_NavigationCompleted;
+            this.FormClosing += Form1_FormClosing;
+            LoadTheme(lastTheme);
+        }
+
+        private void Form1_FormClosing(object? sender, FormClosingEventArgs e)
+        {
+            SavePresets();
+            if (key != null) { key.Flush(); }
+        }
+
+        public void SavePresets()
+        {
+            if (presetsKey != null)
+            {
+                string[] presetsKeys = presetsKey.GetValueNames();
+                foreach (string pkey in presetsKeys)
+                {
+                    try { presetsKey.DeleteValue(pkey); }
+                    catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+                }
+                foreach (Preset pr in presets)
+                {
+                    if (pr.Name == "") { presetsKey.SetValue(pr.Name, ""); }
+                    else { presetsKey.SetValue(pr.Name, JsonConvert.SerializeObject(pr)); }
+                }
+
+                presetsKey.Flush();
+            }
         }
 
         private void IndexPresetComboBox_SelectedIndexChanged(object? sender, EventArgs e)
@@ -131,6 +235,7 @@ namespace BookCompiler
             if (theme == null) { return; }
 
             currentTheme = theme;
+            key.SetValue("Theme", currentTheme.Name);
 
             this.BackColor = theme.BackgroundColor;
             this.ForeColor = theme.ForegroundColor;
@@ -187,6 +292,9 @@ namespace BookCompiler
             IndexPresetComboBox.ForeColor = theme.ButtonForegroundColor;
             PageCloudFlareProtectedComboBox.ForeColor = theme.ButtonForegroundColor;
 
+            IndexPresetAddButton.BackColor = theme.ButtonBackgroundColor;
+            IndexPresetAddButton.ForeColor = theme.ButtonForegroundColor;
+
             PreviewButton.BackColor = theme.ButtonBackgroundColor;
             PreviewButton.ForeColor = theme.ButtonForegroundColor;
 
@@ -218,7 +326,20 @@ namespace BookCompiler
         }
         #endregion
 
-        private void SetUrl(string url) { try { webView.Source = new Uri(url); } catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); } }
+        private void SetUrl(string url)
+        {
+            try
+            {
+                webView.Source = new Uri(url);
+                UrlBox.Text = url;
+                string website = url.Split('/')[2];
+                for (int i = 0; i < presets.Count; i++)
+                {
+                    if (presets[i].Name == website) { IndexPresetComboBox.SelectedIndex = i; break; }
+                }
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+        }
 
         #region Fonction set data
         private void SetIndexTitle(string reference)
@@ -326,7 +447,7 @@ namespace BookCompiler
                 string parent = IndexParentTextBox.Text;
                 string child = IndexObjectTextBox.Text;
                 string title = await webView.ExecuteScriptAsync("document.querySelector(\"" + IndexTitleTextBox.Text + "\").innerHTML;");
-                BookTitle = title = title.Replace("\"", "");
+                BookTitle = title = title.Replace("\t", "").Replace("\r", "").Replace("\n", "").Trim('"').Trim();
                 Debug.WriteLine(title);
                 string html = await webView.ExecuteScriptAsync("var list = []; document.querySelector(\"" + parent + "\").querySelectorAll(\"" + child + "\").forEach(a => list.push(a.innerHTML)); list;");
                 OutputTextBox.Text = html;
@@ -510,6 +631,13 @@ namespace BookCompiler
 
             FinalizeBook();
 
+        }
+
+        private void IndexPresetAddButton_Click(object sender, EventArgs e)
+        {
+            ProfilesManager manager = new ProfilesManager(this);
+            manager.ShowDialog();
+            manager.Dispose();
         }
     }
 

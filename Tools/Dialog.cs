@@ -10,9 +10,9 @@ namespace Tools
     public class Dialog
     {
         [ComVisible(true)]
-        public static string last_input = null;
-        private static Form form = null;
-        private static DialogReturn lastReturn = DialogReturn.None;
+        public static string? last_input = null;
+        private static Form? form = null;
+        private static DialogReturn? lastReturn = DialogReturn.None;
         private static Dictionary<DialogButton, List<DialogReturn>> DialogButtonsOrder = new Dictionary<DialogButton, List<DialogReturn>>() {
             { DialogButton.OK, new List<DialogReturn>() { DialogReturn.OK } },
             { DialogButton.OKCancel, new List<DialogReturn>() { DialogReturn.Cancel, DialogReturn.OK } },
@@ -50,9 +50,9 @@ namespace Tools
         [ComVisible(true)]
         public static DialogReturn ShowDialog(string message, string title) { return ShowDialog(null, message, title, DialogButton.OK); }
         [ComVisible(true)]
-        public static DialogReturn ShowDialog(string message, DialogButton buttons = DialogButton.OK, DialogIcon icon = DialogIcon.Info, bool topMost = false, string[] CustomButtonsText = null, DialogType dtype = DialogType.Message) { return ShowDialog(null, message, message, buttons, icon, topMost, CustomButtonsText, dtype); }
+        public static DialogReturn ShowDialog(string message, DialogButton buttons = DialogButton.OK, DialogIcon icon = DialogIcon.Info, bool topMost = false, string[]? CustomButtonsText = null, DialogType dtype = DialogType.Message) { return ShowDialog(null, message, message, buttons, icon, topMost, CustomButtonsText, dtype); }
         [ComVisible(true)]
-        public static DialogReturn ShowDialog(Form parent, string message, string title, DialogButton buttons = DialogButton.OK, DialogIcon icon = DialogIcon.Info, bool topMost = false, string[] CustomButtonsText = null, DialogType dtype = DialogType.Message)
+        public static DialogReturn ShowDialog(Form? parent, string message, string title, DialogButton buttons = DialogButton.OK, DialogIcon icon = DialogIcon.Info, bool topMost = false, string[]? CustomButtonsText = null, DialogType dtype = DialogType.Message)
         {
             if (form != null) { return DialogReturn.None; }
             form = new Form();
@@ -136,11 +136,12 @@ namespace Tools
                 inputTextBox.MinimumSize = new Size(300, 30);
                 inputTextBox.Font = Colors.GlobalFont;
                 if (dtype == DialogType.Password) { inputTextBox.PasswordChar = '*'; }
-                inputTextBox.TextChanged += (object sender, EventArgs e) => { TextBox s = (TextBox)sender; last_input = s.Text; };
+                inputTextBox.TextChanged += (object? sender, EventArgs e) => { if (sender == null) { return; } TextBox s = (TextBox)sender; last_input = s.Text; };
                 panel.Controls.Add(inputTextBox, 1, 1);
                 panel.SetColumnSpan(inputTextBox, 1);
-                inputTextBox.KeyUp += (object sender, KeyEventArgs e) => {
+                inputTextBox.KeyUp += (object? sender, KeyEventArgs e) => {
                     if(e.KeyCode == Keys.Enter) {
+                        if (sender == null) { return; }
                         TextBox s = (TextBox)sender;
                         last_input = s.Text;
                         if (form == null) { return; }
@@ -209,12 +210,12 @@ namespace Tools
             panel.RowStyles[2].SizeType = SizeType.Percent;
 
             form.ShowDialog();
-            return lastReturn;
+            return (DialogReturn)lastReturn;
         }
 
         private static Point MouseDownLocation;
 
-        private static void TitleLabel_MouseDown(object sender, MouseEventArgs e)
+        private static void TitleLabel_MouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
@@ -222,7 +223,7 @@ namespace Tools
             }
         }
 
-        private static void TitleLabel_MouseMove(object sender, MouseEventArgs e)
+        private static void TitleLabel_MouseMove(object? sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
@@ -231,7 +232,7 @@ namespace Tools
             }
         }
 
-        private static void Panel_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
+        private static void Panel_CellPaint(object? sender, TableLayoutCellPaintEventArgs e)
         {
             if (e.Row == 0)
             {
@@ -243,9 +244,10 @@ namespace Tools
             }
         }
 
-        private static void Btn_Click(object sender, EventArgs e)
+        private static void Btn_Click(object? sender, EventArgs e)
         {
             if (form == null) { return; }
+            if (sender == null) { return; }
             lastReturn = (DialogReturn)((Button)sender).Tag;
             form.Close();
             form.Dispose();

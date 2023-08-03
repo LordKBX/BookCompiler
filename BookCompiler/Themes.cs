@@ -9,6 +9,7 @@ namespace BookCompiler
 {
     public class Theme
     {
+        public string Name { get; set; } = "";
         public Color BackgroundColor { get; set; } = Color.White;
         public Color ForegroundColor { get; set; } = Color.Black;
         public Color BorderColor { get; set; } = Color.Black;
@@ -21,9 +22,10 @@ namespace BookCompiler
     public static class Themes
     {
         private static Dictionary<string, Theme> _themes = new Dictionary<string, Theme>() {
-            { 
-                "clear", 
-                new Theme(){ 
+            {
+                "clear",
+                new Theme(){
+                    Name = "clear",
                     BackgroundColor = Color.White,
                     ForegroundColor = Color.Black,
                     BorderColor = Color.Black,
@@ -35,7 +37,8 @@ namespace BookCompiler
             },
             { 
                 "black", 
-                new Theme(){ 
+                new Theme(){
+                    Name = "black",
                     BackgroundColor = Color.FromArgb(255, 73, 73, 73),
                     ForegroundColor = Color.White,
                     BorderColor = Color.White,

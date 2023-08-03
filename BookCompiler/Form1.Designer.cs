@@ -67,6 +67,7 @@
             tableLayoutPanel6 = new TableLayoutPanel();
             IndexPresetComboBox = new ComboBox();
             IndexPresetLabel = new Label();
+            IndexPresetAddButton = new Button();
             menuStrip1 = new MenuStrip();
             themesToolStripMenuItem = new ToolStripMenuItem();
             clearToolStripMenuItem = new ToolStripMenuItem();
@@ -119,7 +120,7 @@
             splitContainer1.Panel2.Padding = new Padding(5, 0, 3, 0);
             splitContainer1.Panel2MinSize = 200;
             splitContainer1.Size = new Size(934, 776);
-            splitContainer1.SplitterDistance = 502;
+            splitContainer1.SplitterDistance = 524;
             splitContainer1.SplitterWidth = 3;
             splitContainer1.TabIndex = 0;
             // 
@@ -137,7 +138,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(502, 776);
+            tableLayoutPanel1.Size = new Size(524, 776);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -153,7 +154,7 @@
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(502, 40);
+            tableLayoutPanel2.Size = new Size(524, 40);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // UrlButton
@@ -178,7 +179,7 @@
             UrlBox.Margin = new Padding(0);
             UrlBox.Name = "UrlBox";
             UrlBox.PlaceholderText = "Novel Index Page URL";
-            UrlBox.Size = new Size(462, 37);
+            UrlBox.Size = new Size(484, 37);
             UrlBox.TabIndex = 1;
             UrlBox.KeyUp += UrlBox_KeyUp;
             // 
@@ -191,7 +192,7 @@
             webView.Location = new Point(2, 40);
             webView.Margin = new Padding(2, 0, 0, 0);
             webView.Name = "webView";
-            webView.Size = new Size(500, 736);
+            webView.Size = new Size(522, 736);
             webView.Source = new Uri("https://www.google.fr", UriKind.Absolute);
             webView.TabIndex = 1;
             webView.ZoomFactor = 1D;
@@ -205,7 +206,7 @@
             OutputTextBox.Multiline = true;
             OutputTextBox.Name = "OutputTextBox";
             OutputTextBox.ScrollBars = ScrollBars.Vertical;
-            OutputTextBox.Size = new Size(421, 130);
+            OutputTextBox.Size = new Size(399, 130);
             OutputTextBox.TabIndex = 7;
             OutputTextBox.Text = "Null";
             // 
@@ -215,7 +216,7 @@
             ProcessButton.Location = new Point(5, 630);
             ProcessButton.MinimumSize = new Size(0, 50);
             ProcessButton.Name = "ProcessButton";
-            ProcessButton.Size = new Size(421, 50);
+            ProcessButton.Size = new Size(399, 50);
             ProcessButton.TabIndex = 6;
             ProcessButton.Text = "Compile content in Temp dir";
             ProcessButton.UseVisualStyleBackColor = true;
@@ -228,7 +229,7 @@
             PreviewButton.Margin = new Padding(3, 10, 3, 3);
             PreviewButton.MinimumSize = new Size(0, 50);
             PreviewButton.Name = "PreviewButton";
-            PreviewButton.Size = new Size(421, 50);
+            PreviewButton.Size = new Size(399, 50);
             PreviewButton.TabIndex = 5;
             PreviewButton.Text = "Scrape Website";
             PreviewButton.UseVisualStyleBackColor = true;
@@ -242,7 +243,7 @@
             PageGroupBox.Margin = new Padding(3, 3, 3, 10);
             PageGroupBox.MinimumSize = new Size(0, 170);
             PageGroupBox.Name = "PageGroupBox";
-            PageGroupBox.Size = new Size(421, 170);
+            PageGroupBox.Size = new Size(399, 170);
             PageGroupBox.TabIndex = 4;
             PageGroupBox.TabStop = false;
             PageGroupBox.Text = "Page Parsing";
@@ -270,7 +271,7 @@
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(415, 134);
+            tableLayoutPanel5.Size = new Size(393, 134);
             tableLayoutPanel5.TabIndex = 2;
             // 
             // PageParentLabel
@@ -293,7 +294,7 @@
             PageParentTextBox.Margin = new Padding(0);
             PageParentTextBox.Name = "PageParentTextBox";
             PageParentTextBox.PlaceholderText = "div.aa";
-            PageParentTextBox.Size = new Size(225, 26);
+            PageParentTextBox.Size = new Size(203, 26);
             PageParentTextBox.TabIndex = 1;
             // 
             // PageExcludedLabel
@@ -316,7 +317,7 @@
             PageExcludedTextBox.Margin = new Padding(0);
             PageExcludedTextBox.Name = "PageExcludedTextBox";
             PageExcludedTextBox.PlaceholderText = "div.aa";
-            PageExcludedTextBox.Size = new Size(225, 26);
+            PageExcludedTextBox.Size = new Size(203, 26);
             PageExcludedTextBox.TabIndex = 1;
             // 
             // PageCloudFlareProtectedLabel
@@ -340,7 +341,7 @@
             PageCloudFlareProtectedComboBox.Location = new Point(180, 84);
             PageCloudFlareProtectedComboBox.Margin = new Padding(0, 4, 0, 0);
             PageCloudFlareProtectedComboBox.Name = "PageCloudFlareProtectedComboBox";
-            PageCloudFlareProtectedComboBox.Size = new Size(225, 33);
+            PageCloudFlareProtectedComboBox.Size = new Size(203, 33);
             PageCloudFlareProtectedComboBox.TabIndex = 1;
             // 
             // IndexGroupBox
@@ -354,7 +355,7 @@
             IndexGroupBox.Location = new Point(5, 40);
             IndexGroupBox.MinimumSize = new Size(0, 370);
             IndexGroupBox.Name = "IndexGroupBox";
-            IndexGroupBox.Size = new Size(421, 370);
+            IndexGroupBox.Size = new Size(399, 370);
             IndexGroupBox.TabIndex = 0;
             IndexGroupBox.TabStop = false;
             IndexGroupBox.Text = "Index Parser";
@@ -396,7 +397,7 @@
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(415, 334);
+            tableLayoutPanel4.Size = new Size(393, 334);
             tableLayoutPanel4.TabIndex = 1;
             // 
             // IndexParentLabel
@@ -419,7 +420,7 @@
             IndexParentTextBox.Margin = new Padding(0);
             IndexParentTextBox.Name = "IndexParentTextBox";
             IndexParentTextBox.PlaceholderText = "ul";
-            IndexParentTextBox.Size = new Size(225, 26);
+            IndexParentTextBox.Size = new Size(203, 26);
             IndexParentTextBox.TabIndex = 1;
             // 
             // IndexObjectLabel
@@ -442,7 +443,7 @@
             IndexObjectTextBox.Margin = new Padding(0);
             IndexObjectTextBox.Name = "IndexObjectTextBox";
             IndexObjectTextBox.PlaceholderText = "li";
-            IndexObjectTextBox.Size = new Size(225, 26);
+            IndexObjectTextBox.Size = new Size(203, 26);
             IndexObjectTextBox.TabIndex = 1;
             // 
             // IndexParsingObjectLabel
@@ -465,7 +466,7 @@
             IndexParsingObjectTextBox.Margin = new Padding(0);
             IndexParsingObjectTextBox.Name = "IndexParsingObjectTextBox";
             IndexParsingObjectTextBox.PlaceholderText = "<a href=\"(.*)\">(.*)</a>";
-            IndexParsingObjectTextBox.Size = new Size(225, 26);
+            IndexParsingObjectTextBox.Size = new Size(203, 26);
             IndexParsingObjectTextBox.TabIndex = 1;
             // 
             // IndexTemplateLinkObjectLabel
@@ -488,7 +489,7 @@
             IndexTemplateLinkObjectTextBox.Margin = new Padding(0);
             IndexTemplateLinkObjectTextBox.Name = "IndexTemplateLinkObjectTextBox";
             IndexTemplateLinkObjectTextBox.PlaceholderText = "$1";
-            IndexTemplateLinkObjectTextBox.Size = new Size(225, 26);
+            IndexTemplateLinkObjectTextBox.Size = new Size(203, 26);
             IndexTemplateLinkObjectTextBox.TabIndex = 1;
             // 
             // IndexTemplateNameObjectLabel
@@ -511,7 +512,7 @@
             IndexTemplateNameObjectTextBox.Margin = new Padding(0);
             IndexTemplateNameObjectTextBox.Name = "IndexTemplateNameObjectTextBox";
             IndexTemplateNameObjectTextBox.PlaceholderText = "$2";
-            IndexTemplateNameObjectTextBox.Size = new Size(225, 26);
+            IndexTemplateNameObjectTextBox.Size = new Size(203, 26);
             IndexTemplateNameObjectTextBox.TabIndex = 1;
             // 
             // IndexParsingOrderLabel
@@ -535,7 +536,7 @@
             IndexParsingOrderComboBox.Location = new Point(180, 244);
             IndexParsingOrderComboBox.Margin = new Padding(0, 4, 0, 0);
             IndexParsingOrderComboBox.Name = "IndexParsingOrderComboBox";
-            IndexParsingOrderComboBox.Size = new Size(225, 33);
+            IndexParsingOrderComboBox.Size = new Size(203, 33);
             IndexParsingOrderComboBox.TabIndex = 1;
             // 
             // IndexTitleLabel
@@ -558,7 +559,7 @@
             IndexTitleTextBox.Margin = new Padding(0);
             IndexTitleTextBox.Name = "IndexTitleTextBox";
             IndexTitleTextBox.PlaceholderText = "ul";
-            IndexTitleTextBox.Size = new Size(225, 26);
+            IndexTitleTextBox.Size = new Size(203, 26);
             IndexTitleTextBox.TabIndex = 1;
             // 
             // IndexImageLabel
@@ -581,22 +582,24 @@
             IndexImageTextBox.Margin = new Padding(0);
             IndexImageTextBox.Name = "IndexImageTextBox";
             IndexImageTextBox.PlaceholderText = "$2";
-            IndexImageTextBox.Size = new Size(225, 26);
+            IndexImageTextBox.Size = new Size(203, 26);
             IndexImageTextBox.TabIndex = 1;
             // 
             // tableLayoutPanel6
             // 
-            tableLayoutPanel6.ColumnCount = 2;
+            tableLayoutPanel6.ColumnCount = 3;
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 40F));
             tableLayoutPanel6.Controls.Add(IndexPresetComboBox, 0, 0);
             tableLayoutPanel6.Controls.Add(IndexPresetLabel, 0, 0);
+            tableLayoutPanel6.Controls.Add(IndexPresetAddButton, 2, 0);
             tableLayoutPanel6.Dock = DockStyle.Top;
             tableLayoutPanel6.Location = new Point(5, 0);
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
-            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Size = new Size(421, 40);
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel6.Size = new Size(399, 40);
             tableLayoutPanel6.TabIndex = 2;
             // 
             // IndexPresetComboBox
@@ -604,10 +607,10 @@
             IndexPresetComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             IndexPresetComboBox.FlatStyle = FlatStyle.Popup;
             IndexPresetComboBox.FormattingEnabled = true;
-            IndexPresetComboBox.Location = new Point(210, 4);
+            IndexPresetComboBox.Location = new Point(179, 4);
             IndexPresetComboBox.Margin = new Padding(0, 4, 10, 0);
             IndexPresetComboBox.Name = "IndexPresetComboBox";
-            IndexPresetComboBox.Size = new Size(201, 33);
+            IndexPresetComboBox.Size = new Size(169, 33);
             IndexPresetComboBox.TabIndex = 2;
             // 
             // IndexPresetLabel
@@ -617,10 +620,26 @@
             IndexPresetLabel.Location = new Point(5, 1);
             IndexPresetLabel.Margin = new Padding(5, 0, 5, 0);
             IndexPresetLabel.Name = "IndexPresetLabel";
-            IndexPresetLabel.Size = new Size(200, 38);
+            IndexPresetLabel.Size = new Size(169, 38);
             IndexPresetLabel.TabIndex = 1;
-            IndexPresetLabel.Text = "Preset";
+            IndexPresetLabel.Text = "Profile";
             IndexPresetLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // IndexPresetAddButton
+            // 
+            IndexPresetAddButton.Dock = DockStyle.Fill;
+            IndexPresetAddButton.Font = new Font("Yu Gothic", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            IndexPresetAddButton.Location = new Point(360, 0);
+            IndexPresetAddButton.Margin = new Padding(2, 0, 1, 0);
+            IndexPresetAddButton.Name = "IndexPresetAddButton";
+            IndexPresetAddButton.RightToLeft = RightToLeft.No;
+            IndexPresetAddButton.Size = new Size(38, 40);
+            IndexPresetAddButton.TabIndex = 3;
+            IndexPresetAddButton.Text = "+";
+            IndexPresetAddButton.TextAlign = ContentAlignment.TopLeft;
+            IndexPresetAddButton.UseMnemonic = false;
+            IndexPresetAddButton.UseVisualStyleBackColor = true;
+            IndexPresetAddButton.Click += IndexPresetAddButton_Click;
             // 
             // menuStrip1
             // 
@@ -776,7 +795,6 @@
         private TextBox PageExcludedTextBox;
         private ComboBox PageCloudFlareProtectedComboBox;
         private TableLayoutPanel tableLayoutPanel6;
-        private ComboBox IndexPresetComboBox;
         private Label IndexPresetLabel;
         private Label IndexTitleLabel;
         private TextBox IndexTitleTextBox;
@@ -785,5 +803,7 @@
         private TextBox IndexImageTextBox;
         private ToolStripMenuItem clearToolStripMenuItem;
         private ToolStripMenuItem blackToolStripMenuItem;
+        private Button IndexPresetAddButton;
+        public ComboBox IndexPresetComboBox;
     }
 }
