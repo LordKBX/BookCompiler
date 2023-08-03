@@ -63,23 +63,50 @@ namespace BookCompiler.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à @charset &apos;utf-8&apos;;
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Regular.ttf); }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Regular.ttf&apos;); }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Italic.ttf); font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Italic.ttf&apos;); font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold-Italic.ttf); font-weight: bold; font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold-Italic.ttf&apos;); font-weight: bold; font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold.ttf); font-weight: bold; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold.ttf&apos;); font-weight: bold; }
         ///
         ///*{font-family:&quot;&lt;FONT&gt;&quot;, sans-serif;}
         ///h1{text-align:center;}
         ///h2{text-align:center;}
-        ///h3{text-align:center;}
-        ///img{max-width:100%;height:auto;display:block;ma [le reste de la chaîne a été tronqué]&quot;;.
+        ///h3{text-ali [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string common {
             get {
                 return ResourceManager.GetString("common", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icon {
+            get {
+                object obj = ResourceManager.GetObject("icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Copyright (c) 2023, LordKBX Workshop
+        ///All rights reserved.
+        ///Redistribution and use in source and binary forms, with or without
+        ///modification, are permitted provided that the following conditions are met:
+        ///
+        ///* Redistributions of source code must retain the components copyrights references
+        ///* Redistributions in binary form must reproduce the above copyright
+        ///  notice, this list of conditions and the following disclaimer in the
+        ///  documentation and/or other materials provided with the distribution.
+        ///* Neither  [le reste de la chaîne a été tronqué]&quot;;.
+        /// </summary>
+        internal static string LICENSE {
+            get {
+                return ResourceManager.GetString("LICENSE", resourceCulture);
             }
         }
         
@@ -115,20 +142,18 @@ namespace BookCompiler.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à @charset &apos;utf-8&apos;;
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Regular.ttf); }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Regular.ttf&apos;); }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Italic.ttf); font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Italic.ttf&apos;); font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold-Italic.ttf); font-weight: bold; font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold-Italic.ttf&apos;); font-weight: bold; font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold.ttf); font-weight: bold; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold.ttf&apos;); font-weight: bold; }
         ///
         ///*{font-family:&quot;&lt;FONT&gt;&quot;, sans-serif;}
         ///body, html{height:100%;}
         ///h1{text-align:center;}
-        ///h2{text-align:center;}
-        ///h3{text-align:center;}
-        ///img{max-width:100%;he [le reste de la chaîne a été tronqué]&quot;;.
+        ///h2{text-a [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string Theme__default {
             get {
@@ -139,18 +164,16 @@ namespace BookCompiler.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à @charset &apos;utf-8&apos;;
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Regular.ttf); }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Regular.ttf&apos;); }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Italic.ttf); font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Italic.ttf&apos;); font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold-Italic.ttf); font-weight: bold; font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold-Italic.ttf&apos;); font-weight: bold; font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold.ttf); font-weight: bold; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold.ttf&apos;); font-weight: bold; }
         ///
         ///*{font-family:&quot;&lt;FONT&gt;&quot;, sans-serif;background:#FFE0AA;color:#666666;}
-        ///body, html{height:100%;background:#FFE0AA;}
-        ///h1{text-align:center;}
-        ///h2{text-align:cen [le reste de la chaîne a été tronqué]&quot;;.
+        ///body, html{height:100%;bac [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string Theme_cream {
             get {
@@ -161,18 +184,16 @@ namespace BookCompiler.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à @charset &apos;utf-8&apos;;
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Regular.ttf); }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Regular.ttf&apos;); }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Italic.ttf); font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Italic.ttf&apos;); font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold-Italic.ttf); font-weight: bold; font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold-Italic.ttf&apos;); font-weight: bold; font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold.ttf); font-weight: bold; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold.ttf&apos;); font-weight: bold; }
         ///
         ///*{font-family:&quot;&lt;FONT&gt;&quot;, sans-serif;background:#444444;color:#ffffff;}
-        ///body, html{height:100%;background:#444444;}
-        ///h1{text-align:center;}
-        ///h2{text-align:cen [le reste de la chaîne a été tronqué]&quot;;.
+        ///body, html{height:100%;bac [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string Theme_dark {
             get {
@@ -183,18 +204,16 @@ namespace BookCompiler.Properties {
         /// <summary>
         ///   Recherche une chaîne localisée semblable à @charset &apos;utf-8&apos;;
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Regular.ttf); }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Regular.ttf&apos;); }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Italic.ttf); font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Italic.ttf&apos;); font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold-Italic.ttf); font-weight: bold; font-style: italic; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold-Italic.ttf&apos;); font-weight: bold; font-style: italic; }
         ///
-        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(Bold.ttf); font-weight: bold; }
+        ///@font-face { font-family: &quot;&lt;FONT&gt;&quot;; src: url(&apos;Fonts/&lt;FONT&gt;/Bold.ttf&apos;); font-weight: bold; }
         ///
         ///*{font-family:&quot;&lt;FONT&gt;&quot;, sans-serif;background:#444444;color:#ffffff;}
-        ///body, html{background:#444444;height:100%;}
-        ///h1{text-align:center;}
-        ///h2{text-align:cen [le reste de la chaîne a été tronqué]&quot;;.
+        ///body, html{background:#444 [le reste de la chaîne a été tronqué]&quot;;.
         /// </summary>
         internal static string Theme_dark2 {
             get {

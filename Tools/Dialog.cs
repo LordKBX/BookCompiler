@@ -292,11 +292,4 @@ namespace Tools
         YesNo,
         RetryCancel
     }
-
-    [ComVisible(true)]
-    public static class Colors {
-        public static Font GlobalFont { get; } = new Font("Yu Gothic", 14, FontStyle.Regular, GraphicsUnit.Point); 
-        public static Color White { get; } = Color.White; 
-        public static Color Black { get; } = Color.Black; 
-    }
 }

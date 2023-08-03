@@ -39,23 +39,32 @@ namespace CoverGenerator
             timer.Start();
         }
 
-        private async void Timer_Tick(object? sender, EventArgs e)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
-            if (count == 0) { webView.NavigateToString(html); }
+            if (count == 0) { 
+                timer.Stop();
+                webView.NavigateToString(html);
+                webView.NavigationCompleted += WebView_NavigationCompleted; ;
+            }
             else
             {
                 timer.Stop();
-                string tmp = Path.GetTempFileName()+".png";
-                using (FileStream file = new FileStream(tmp, FileMode.Create))
-                {
-                    await webView.CoreWebView2.CapturePreviewAsync(Microsoft.Web.WebView2.Core.CoreWebView2CapturePreviewImageFormat.Png, file);
-                    Console.WriteLine(tmp);
-                    Debug.WriteLine(tmp);
-                }
-                webView.Dispose();
-                Close();
+                //WebView_NavigationCompleted(null, null);
             }
             count += 1;
+        }
+
+        private async void WebView_NavigationCompleted(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs? e)
+        {
+            string tmp = Path.GetTempPath() + Guid.NewGuid().ToString() + ".png";
+            using (FileStream file = new FileStream(tmp, FileMode.Create))
+            {
+                await webView.CoreWebView2.CapturePreviewAsync(Microsoft.Web.WebView2.Core.CoreWebView2CapturePreviewImageFormat.Png, file);
+                Console.WriteLine(tmp);
+                Debug.WriteLine(tmp);
+            }
+            webView.Dispose();
+            Close();
         }
     }
 }

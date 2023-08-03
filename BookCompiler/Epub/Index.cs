@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace BookCompiler.Epub
             "\r\n\t\t\t<dc:creator xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:ns0=\"http://www.idpf.org/2007/opf\" ns0:role=\"aut\" ns0:file-as=\"{AUTHORS}\">{AUTHORS}</dc:creator>" +
             "\r\n\t\t\t<dc:language xmlns:dc=\"http://purl.org/dc/elements/1.1/\">{LANG}</dc:language>" +
             "\r\n\t\t\t<dc:identifier opf:scheme=\"uuid\" id=\"uuid_id\">{BOOKID}</dc:identifier>" +
-            "\r\n\t\t\t<dc:contributor opf:file-as=\"BookCompiler Ebook\" opf:role=\"bkp\">BookCompiler [https://github.com/LordKBX/]</dc:contributor>" +
+            "\r\n\t\t\t<dc:contributor opf:file-as=\"BookCompiler Ebook\" opf:role=\"bkp\">BookCompiler [https://github.com/LordKBX/BookCompiler]</dc:contributor>" +
             "\r\n\t\t</metadata>" +
             "\r\n\t\t<manifest>" +
             "\r\n\t\t\t{MANIFEST}" +
@@ -34,8 +35,7 @@ namespace BookCompiler.Epub
             "\r\n\t\t\t<item href=\"{FONTDIR}/Bold-Italic.ttf\" id=\"font3\" media-type=\"application/x-font-truetype\"/>" +
             "\r\n\t\t\t<item href=\"{FONTDIR}/Italic.ttf\" id=\"font4\" media-type=\"application/x-font-truetype\"/>" +
             "\r\n\t\t</manifest>" +
-            "\r\n\t\t<spine toc=\"ncx\">" +
-            "\r\n\t\t\t<itemref idref=\"{ID0}\"/>" +
+            "\r\n\t\t<spine toc=\"{ID0}\">" +
             "\r\n\t\t\t{SPINE}" +
             "\r\n\t\t</spine>" +
             "\r\n\t</package>";
@@ -70,11 +70,17 @@ namespace BookCompiler.Epub
 
             for (int i = 0; i< chapters.Count; i++)
             {
-                string path = chapters[i].PageObject.ExportPath().Replace(""+Program.TmpDir, "Pages");
-                string displaynum = Tools.Num.FormatNumber(i, numlength);
-                if (i > 0) { manifest += "\r\n\t\t\t"; spine += "\r\n\t\t\t"; } else { id0 = "file_" + displaynum; }
-                manifest += "<item id=\"file_" + displaynum + "\" href=\"" + path + "\" media-type=\"application/xhtml+xml\"/>";
-                spine += "<itemref idref=\"file_" + displaynum + "\" />";
+                try
+                {
+                    if (chapters.Count <= i) { break; }
+                    if (chapters[i].PageObject == null) { Debug.WriteLine("chapters[i]("+ chapters[i] .Name+ ") is null"); continue; }
+                    string path = chapters[i].PageObject.ExportPath().Replace("" + Program.TmpDir + "\\", "");
+                    string displaynum = Tools.Num.FormatNumber(i, numlength);
+                    if (i > 0) { manifest += "\r\n\t\t\t"; spine += "\r\n\t\t\t"; } else { id0 = "file_" + displaynum; }
+                    manifest += "<item id=\"file_" + displaynum + "\" href=\"" + path + "\" media-type=\"application/xhtml+xml\"/>";
+                    spine += "<itemref idref=\"file_" + displaynum + "\" />";
+                }
+                catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
             }
             ret = ret.Replace("{NOVELNAME}", Title);
             ret = ret.Replace("{AUTHORS}", Authors);
@@ -86,8 +92,14 @@ namespace BookCompiler.Epub
             ret = ret.Replace("{ID0}", id0);
             ret = ret.Replace("{FONTDIR}", "Fonts/" + FontName);
 
-
             return ret;
+        }
+
+        public string Save() {
+            string file = Program.TmpDir + "\\metadata.opf";
+            if (File.Exists(file)) { File.Delete(file); }
+            File.WriteAllText(file, Generate());
+            return file;
         }
     }
 }

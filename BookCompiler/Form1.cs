@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using Microsoft.Web.WebView2;
 using Microsoft.Web.WebView2.Core;
 using Tools;
+using SharpCompress.Writers.Zip;
+using File = System.IO.File;
 
 namespace BookCompiler
 {
@@ -22,18 +24,30 @@ namespace BookCompiler
                 IndexTemplateLink = "$1",
                 IndexTemplateName = "$2 $3",
                 IndexOrderDescendent = true,
+                IndexImageObject = "div.bigcover img",
+
                 PageParent = "div.entry-content",
-                PageExcluded = "p.has-text-align-center",
+                //PageExcluded = "p.has-text-align-center",
+                PageExcluded = "p.has-text-align-center, div.entry-content div",
                 PageProtected = false
             },
         };
 
+        static readonly string defaultTheme = "clear";
+        string lastTheme = "clear";
+        Theme? currentTheme;
+
         List<ChapterReference> chaptersList = new List<ChapterReference>();
         int chapterIndex = int.MaxValue;
+        string BookTitle = "";
+        string coverPath = "";
 
         public Form1()
         {
             InitializeComponent();
+            LoadTheme(lastTheme);
+            if (lastTheme == defaultTheme) { clearToolStripMenuItem.Checked = true; blackToolStripMenuItem.Checked = false; }
+            else { clearToolStripMenuItem.Checked = false; blackToolStripMenuItem.Checked = true; }
 
             IndexPresetComboBox.Items.AddRange(presets.ToArray());
             IndexPresetComboBox.SelectedIndex = 0;
@@ -60,6 +74,7 @@ namespace BookCompiler
                     SetIndexTemplateLinkObject(pr.IndexTemplateLink);
                     SetIndexTemplateNameObject(pr.IndexTemplateName);
                     SetIndexOrder(pr.IndexOrderDescendent);
+                    SetIndexImage(pr.IndexImageObject);
 
                     SetPageParent(pr.PageParent);
                     SetPageExcluded(pr.PageExcluded);
@@ -70,11 +85,21 @@ namespace BookCompiler
 
         private void PaintroupBox(object sender, PaintEventArgs p)
         {
+            Brush back = Brushes.White;
+            Brush fore = Brushes.Black;
+            Brush border = Brushes.Black;
+            if (currentTheme != null)
+            {
+                back = new SolidBrush(currentTheme.BackgroundColor);
+                fore = new SolidBrush(currentTheme.ForegroundColor);
+                border = new SolidBrush(currentTheme.BorderColor);
+            }
+
+
             GroupBox box = (GroupBox)sender;
             p.Graphics.Clear(SystemColors.Control);
-            Pen pen = new Pen(Brushes.Black);
-            Pen pen2 = new Pen(Brushes.White);
-            p.Graphics.FillRectangle(Brushes.White, 0, 0, box.Width, box.Height);
+            Pen pen = new Pen(border);
+            p.Graphics.FillRectangle(back, 0, 0, box.Width, box.Height);
             p.Graphics.DrawLine(pen,
                 0, 11,
                 0, box.Height - 5);
@@ -96,23 +121,100 @@ namespace BookCompiler
             p.Graphics.DrawLine(pen,
                 (16 + length), 11, box.Width - 5, 11);
 
-            p.Graphics.DrawString(box.Text, box.Font, Brushes.Black, 20, 0);
+            p.Graphics.DrawString(box.Text, box.Font, fore, 20, 0);
+        }
+
+        private void LoadTheme(string themeName)
+        {
+            Theme? theme = Themes.getTheme(themeName);
+            if (theme == null) { theme = Themes.getTheme(defaultTheme); }
+            if (theme == null) { return; }
+
+            currentTheme = theme;
+
+            this.BackColor = theme.BackgroundColor;
+            this.ForeColor = theme.ForegroundColor;
+            splitContainer1.BackColor = theme.BorderColor;
+            splitContainer1.Panel1.BackColor = theme.BackgroundColor;
+            splitContainer1.Panel2.BackColor = theme.BackgroundColor;
+
+            webView.BackColor = theme.BackgroundColor;
+            UrlButton.BackColor = theme.ButtonBackgroundColor;
+            UrlButton.ForeColor = theme.ButtonForegroundColor;
+            UrlBox.BackColor = theme.InputBackgroundColor;
+            UrlBox.ForeColor = theme.InputForegroundColor;
+
+            IndexPresetLabel.ForeColor = theme.ForegroundColor;
+            IndexTitleLabel.ForeColor = theme.ForegroundColor;
+            IndexParentLabel.ForeColor = theme.ForegroundColor;
+            IndexObjectLabel.ForeColor = theme.ForegroundColor;
+            IndexParsingObjectLabel.ForeColor = theme.ForegroundColor;
+            IndexTemplateLinkObjectLabel.ForeColor = theme.ForegroundColor;
+            IndexTemplateNameObjectLabel.ForeColor = theme.ForegroundColor;
+            IndexParsingOrderLabel.ForeColor = theme.ForegroundColor;
+            IndexImageLabel.ForeColor = theme.ForegroundColor;
+            PageParentLabel.ForeColor = theme.ForegroundColor;
+            PageExcludedLabel.ForeColor = theme.ForegroundColor;
+            PageCloudFlareProtectedLabel.ForeColor = theme.ForegroundColor;
+
+            IndexTitleTextBox.BackColor = theme.InputBackgroundColor;
+            IndexParentTextBox.BackColor = theme.InputBackgroundColor;
+            IndexObjectTextBox.BackColor = theme.InputBackgroundColor;
+            IndexParsingObjectTextBox.BackColor = theme.InputBackgroundColor;
+            IndexTemplateLinkObjectTextBox.BackColor = theme.InputBackgroundColor;
+            IndexTemplateNameObjectTextBox.BackColor = theme.InputBackgroundColor;
+            IndexImageTextBox.BackColor = theme.InputBackgroundColor;
+            PageParentTextBox.BackColor = theme.InputBackgroundColor;
+            PageExcludedTextBox.BackColor = theme.InputBackgroundColor;
+            OutputTextBox.BackColor = theme.InputBackgroundColor;
+
+            IndexTitleTextBox.ForeColor = theme.InputForegroundColor;
+            IndexParentTextBox.ForeColor = theme.InputForegroundColor;
+            IndexObjectTextBox.ForeColor = theme.InputForegroundColor;
+            IndexParsingObjectTextBox.ForeColor = theme.InputForegroundColor;
+            IndexTemplateLinkObjectTextBox.ForeColor = theme.InputForegroundColor;
+            IndexTemplateNameObjectTextBox.ForeColor = theme.InputForegroundColor;
+            IndexImageTextBox.ForeColor = theme.InputForegroundColor;
+            PageParentTextBox.ForeColor = theme.InputForegroundColor;
+            PageExcludedTextBox.ForeColor = theme.InputForegroundColor;
+            OutputTextBox.ForeColor = theme.InputForegroundColor;
+
+            IndexParsingOrderComboBox.BackColor = theme.ButtonBackgroundColor;
+            IndexPresetComboBox.BackColor = theme.ButtonBackgroundColor;
+            PageCloudFlareProtectedComboBox.BackColor = theme.ButtonBackgroundColor;
+
+            IndexParsingOrderComboBox.ForeColor = theme.ButtonForegroundColor;
+            IndexPresetComboBox.ForeColor = theme.ButtonForegroundColor;
+            PageCloudFlareProtectedComboBox.ForeColor = theme.ButtonForegroundColor;
+
+            PreviewButton.BackColor = theme.ButtonBackgroundColor;
+            PreviewButton.ForeColor = theme.ButtonForegroundColor;
+
+            ProcessButton.BackColor = theme.ButtonBackgroundColor;
+            ProcessButton.ForeColor = theme.ButtonForegroundColor;
         }
 
         #region Top menu
-        private void réglagesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            lastTheme = "clear";
+            clearToolStripMenuItem.Checked = true;
+            blackToolStripMenuItem.Checked = false;
+            LoadTheme(lastTheme);
         }
 
-        private void themesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void blackToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            lastTheme = "black";
+            clearToolStripMenuItem.Checked = false;
+            blackToolStripMenuItem.Checked = true;
+            LoadTheme(lastTheme);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            About ab = new About(this);
+            ab.ShowDialog();
         }
         #endregion
 
@@ -160,6 +262,12 @@ namespace BookCompiler
             try { IndexParsingOrderComboBox.SelectedIndex = (descendent) ? 1 : 0; }
             catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
         }
+
+        private void SetIndexImage(string descendent)
+        {
+            try { IndexImageTextBox.Text = descendent; }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+        }
         #endregion
         #region Set page parsing data
         private void SetPageParent(string reference)
@@ -189,7 +297,7 @@ namespace BookCompiler
         }
         #endregion
 
-        private string GenerateCover(string title, string author = "")
+        private string GenerateCover(string title, string author = "", string imageUrl = "")
         {
             Process fileopener = new Process();
             string exepath = Program.ExeDir.Replace("BookCompiler\\BookCompiler", "BookCompiler\\CoverGenerator") + "\\CoverGenerator.exe";
@@ -197,12 +305,12 @@ namespace BookCompiler
             catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
 
             fileopener.StartInfo.FileName = exepath;
-            fileopener.StartInfo.Arguments = "\"Novel=" + title + "\"" + ((author.Trim().Length > 0) ? " \"Author=" + author.Trim() + "\"" : "");
+            fileopener.StartInfo.Arguments = "\"Novel=" + title + "\"" + ((author.Trim().Length > 0) ? " \"Author=" + author.Trim() + "\"" : "") + ((imageUrl.Trim().Length > 0) ? " \"Image=" + imageUrl.Trim() + "\"" : "");
             fileopener.StartInfo.UseShellExecute = false;
             fileopener.StartInfo.RedirectStandardOutput = true;
             fileopener.Start();
             fileopener.WaitForExit();
-            string output = fileopener.StandardOutput.ReadToEnd();
+            string output = fileopener.StandardOutput.ReadToEnd().Replace("\r", "").Replace("\n", "").Trim();
             Debug.WriteLine("Cover Path => " + output);
             fileopener = null;
             return output;
@@ -212,11 +320,13 @@ namespace BookCompiler
         {
             try
             {
+                foreach (string file in Directory.GetFiles(Program.TmpDir, "*", new EnumerationOptions() { MaxRecursionDepth = 5, RecurseSubdirectories = true, ReturnSpecialDirectories = false })) { File.Delete(file); }
+                coverPath = "";
                 OutputTextBox.Text = "";
                 string parent = IndexParentTextBox.Text;
                 string child = IndexObjectTextBox.Text;
                 string title = await webView.ExecuteScriptAsync("document.querySelector(\"" + IndexTitleTextBox.Text + "\").innerHTML;");
-                title = title.Replace("\"", "");
+                BookTitle = title = title.Replace("\"", "");
                 Debug.WriteLine(title);
                 string html = await webView.ExecuteScriptAsync("var list = []; document.querySelector(\"" + parent + "\").querySelectorAll(\"" + child + "\").forEach(a => list.push(a.innerHTML)); list;");
                 OutputTextBox.Text = html;
@@ -236,10 +346,6 @@ namespace BookCompiler
                             {
                                 string name = IndexTemplateNameObjectTextBox.Text;
                                 string link = IndexTemplateLinkObjectTextBox.Text;
-                                Debug.WriteLine(JsonConvert.SerializeObject(match.Groups, Formatting.Indented, new JsonSerializerSettings
-                                {
-                                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                                }));
                                 for (int i = 0; i < match.Groups.Count; i++)
                                 {
                                     name = name.Replace("$" + i, match.Groups[i].Value);
@@ -256,9 +362,21 @@ namespace BookCompiler
 
                 if (chaptersList.Count > 0)
                 {
-                    string coverPath = GenerateCover(title);
+                    string ob = IndexImageTextBox.Text;
+                    string pathcover = "";
+                    if (ob.Trim().Length > 0)
+                    {
+                        pathcover = await webView.ExecuteScriptAsync("var ob = document.querySelector(\"" + ob + "\"); var rez = (ob.tagName == \"IMG\")?ob.src:(''); rez;");
+                        pathcover = pathcover.Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
+                    }
+                    coverPath = GenerateCover(title, "", pathcover);
+                    string endfilecover = Program.TmpDir + "\\cover.png";
+                    if (File.Exists(endfilecover)) { File.Delete(endfilecover); }
+                    File.Copy(coverPath, endfilecover);
                     chapterIndex = 0;
+                    //Application.Exit();
                     webView.CoreWebView2.Navigate(chaptersList[chapterIndex].Url);
+                    this.UseWaitCursor = true;
                 }
             }
             catch (Exception er)
@@ -272,6 +390,8 @@ namespace BookCompiler
         {
             try
             {
+                string stl = "" + chaptersList.Count;
+                uint maxnblength = uint.Parse("" + stl.Length);
                 if (chapterIndex < chaptersList.Count)
                 {
                     if (PageCloudFlareProtectedComboBox.SelectedIndex != 0) //Protected
@@ -279,16 +399,17 @@ namespace BookCompiler
                         if (Dialog.ShowDialog(this, "Please push the OK button when page finaly loaded", "Wait", DialogButton.OK, DialogIcon.Warning) == DialogReturn.OK) { }
                     }
                     await webView.ExecuteScriptAsync("document.querySelectorAll(\"" + PageExcludedTextBox.Text.Trim() + "\").forEach(a => { a.parentNode.removeChild(a); });");
+                    Thread.Sleep(300);
                     string html = await webView.ExecuteScriptAsync("document.querySelector(\"" + PageParentTextBox.Text + "\").innerHTML;");
-                    chaptersList[chapterIndex].PageObject = new Page(html, chaptersList[chapterIndex].Name, chapterIndex);
+                    chaptersList[chapterIndex].PageObject = new Page(Regex.Unescape(html).Trim('"'), chaptersList[chapterIndex].Name, chapterIndex + 1, maxnblength);
                     chaptersList[chapterIndex].PageObject.Export();
 
                     chapterIndex += 1;
                     if (chapterIndex >= chaptersList.Count)
                     {
+                        this.UseWaitCursor = false;
                         chapterIndex = int.MaxValue;
                         FinalizeBook();
-                        Dialog.ShowDialog(this, "¨Scrapping ended !", "Info", DialogButton.OK, DialogIcon.Info);
                     }
                     else { webView.CoreWebView2.Navigate(chaptersList[chapterIndex].Url); }
                 }
@@ -296,8 +417,99 @@ namespace BookCompiler
             catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
         }
 
-        private void FinalizeBook() {
-            
+        private void FinalizeBook()
+        {
+            try
+            {
+                string stl = "" + chaptersList.Count;
+                uint maxnblength = uint.Parse("" + stl.Length);
+                chaptersList.Insert(0, new ChapterReference() { Name = "Index", Url = "", PageObject = new Page("<img src=\"cover.png\" style=\"margin: 0 auto; max-width : calc(100vw - 10px);\" />", "Index", 0, maxnblength) });
+                chaptersList[0].PageObject.Export();
+                Epub.Epub book = new Epub.Epub(BookTitle, "", chaptersList, coverPath);
+                book.Compile();
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+            Dialog.ShowDialog(this, "¨Scrapping ended !", "Info", DialogButton.OK, DialogIcon.Info);
+        }
+
+        private async void ProcessButton_Click(object sender, EventArgs e)
+        {
+            chaptersList.Clear();
+
+            coverPath = Program.TmpDir + "\\cover.png";
+            string parent = IndexParentTextBox.Text;
+            string child = IndexObjectTextBox.Text;
+            string title = await webView.ExecuteScriptAsync("document.querySelector(\"" + IndexTitleTextBox.Text + "\").innerHTML;");
+            BookTitle = title = title.Replace("\"", "");
+            Debug.WriteLine(title);
+            string html = await webView.ExecuteScriptAsync("var list = []; document.querySelector(\"" + parent + "\").querySelectorAll(\"" + child + "\").forEach(a => list.push(a.innerHTML)); list;");
+            OutputTextBox.Text = html;
+
+            List<string>? strings = JsonConvert.DeserializeObject<List<string>>(html);
+            if (strings != null)
+            {
+                try
+                {
+                    Regex regex = new Regex(IndexParsingObjectTextBox.Text);
+                    int cpt = 1;
+                    foreach (string line in strings)
+                    {
+                        Match match = regex.Match(line);
+                        if (match.Success)
+                        {
+                            string name = IndexTemplateNameObjectTextBox.Text;
+                            string link = IndexTemplateLinkObjectTextBox.Text;
+                            for (int i = 0; i < match.Groups.Count; i++)
+                            {
+                                name = name.Replace("$" + i, match.Groups[i].Value);
+                                link = link.Replace("$" + i, match.Groups[i].Value);
+                            }
+
+                            if (IndexParsingOrderComboBox.SelectedIndex == 1) { chaptersList.Insert(0, new ChapterReference() { Name = name, Url = link }); }
+                            else { chaptersList.Add(new ChapterReference() { Name = name, Url = link }); }
+                            cpt += 1;
+                        }
+                    }
+
+                    string stl = "" + chaptersList.Count;
+                    uint maxnblength = uint.Parse("" + stl.Length);
+                    //uint maxnblength = 4;
+
+                    cpt = 1;
+                    int j = 0;
+                    //, PageObject = new Page(File.ReadAllText())
+                    int end = -1;
+                    for (j = 0; j < chaptersList.Count; j++)
+                    {
+                        try
+                        {
+                            string filepath = Program.TmpDir + "\\Page" + Tools.Num.FormatNumber(cpt + j, maxnblength) + ".xhtml";
+                            if (File.Exists(filepath))
+                            {
+                                string pageContent = File.ReadAllText(filepath);
+                                chaptersList[j].PageObject = new Page(pageContent, chaptersList[j].Name, j + 1, maxnblength);
+                            }
+                            else
+                            {
+                                end = j;
+                                break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace);
+                            end = j;
+                            break;
+                        }
+                    }
+                    if (end > -1) { chaptersList.RemoveRange(end + 1, chaptersList.Count - end - 1); }
+                    Debug.WriteLine(OutputTextBox.Text = JsonConvert.SerializeObject(chaptersList));
+                }
+                catch (Exception ex) { Debug.WriteLine(ex.Message); Debug.WriteLine(ex.StackTrace); }
+            }
+
+            FinalizeBook();
+
         }
     }
 

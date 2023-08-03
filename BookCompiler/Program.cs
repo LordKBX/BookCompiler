@@ -7,6 +7,7 @@ namespace BookCompiler
     {
         public static string? ExeDir = null;
         public static string? TmpDir = null;
+        public static string? ExportDir = null;
 
         /// <summary>
         ///  The main entry point for the application.
@@ -23,7 +24,9 @@ namespace BookCompiler
                     if (reference != null) { ExeDir = reference.Replace("file:" + ((Environment.OSVersion.Platform == PlatformID.Win32NT) ? "\\" : "/"), ""); }
                 }
                 TmpDir = ExeDir + "\\tmp";
+                ExportDir = ExeDir + "\\export";
                 if(!Directory.Exists(TmpDir)) { Directory.CreateDirectory(TmpDir); }
+                if(!Directory.Exists(ExportDir)) { Directory.CreateDirectory(ExportDir); }
             }
             catch(Exception ex) { }
 

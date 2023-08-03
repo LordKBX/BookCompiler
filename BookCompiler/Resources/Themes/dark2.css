@@ -1,12 +1,12 @@
 @charset 'utf-8';
 
-@font-face { font-family: "<FONT>"; src: url(Regular.ttf); }
+@font-face { font-family: "<FONT>"; src: url('Fonts/<FONT>/Regular.ttf'); }
 
-@font-face { font-family: "<FONT>"; src: url(Italic.ttf); font-style: italic; }
+@font-face { font-family: "<FONT>"; src: url('Fonts/<FONT>/Italic.ttf'); font-style: italic; }
 
-@font-face { font-family: "<FONT>"; src: url(Bold-Italic.ttf); font-weight: bold; font-style: italic; }
+@font-face { font-family: "<FONT>"; src: url('Fonts/<FONT>/Bold-Italic.ttf'); font-weight: bold; font-style: italic; }
 
-@font-face { font-family: "<FONT>"; src: url(Bold.ttf); font-weight: bold; }
+@font-face { font-family: "<FONT>"; src: url('Fonts/<FONT>/Bold.ttf'); font-weight: bold; }
 
 *{font-family:"<FONT>", sans-serif;background:#444444;color:#ffffff;}
 body, html{background:#444444;height:100%;}

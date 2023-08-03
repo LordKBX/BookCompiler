@@ -33,9 +33,17 @@ namespace BookCompiler.Epub
             this.numberMinSize = numberMinSize;
         }
 
+        public Page(string html,int number, uint numberMinSize = 4)
+        {
+            this.number = number;
+            this.numberMinSize = numberMinSize;
+            this.html = html;
+            this.numberMinSize = numberMinSize;
+        }
+
         public override string ToString() { return html; }
 
-        public string ExportPath() { return Program.TmpDir + "\\" + Tools.Num.FormatNumber(number, numberMinSize) + ".xhtml"; }
+        public string ExportPath() { return Program.TmpDir + "\\Page" + Tools.Num.FormatNumber(number, numberMinSize) + ".xhtml"; }
 
         public string Export() {
             string file = ExportPath();

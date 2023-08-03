@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             splitContainer1 = new SplitContainer();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
@@ -49,7 +50,7 @@
             tableLayoutPanel4 = new TableLayoutPanel();
             IndexParentLabel = new Label();
             IndexParentTextBox = new TextBox();
-            IndexObject = new Label();
+            IndexObjectLabel = new Label();
             IndexObjectTextBox = new TextBox();
             IndexParsingObjectLabel = new Label();
             IndexParsingObjectTextBox = new TextBox();
@@ -61,12 +62,15 @@
             IndexParsingOrderComboBox = new ComboBox();
             IndexTitleLabel = new Label();
             IndexTitleTextBox = new TextBox();
+            IndexImageLabel = new Label();
+            IndexImageTextBox = new TextBox();
             tableLayoutPanel6 = new TableLayoutPanel();
             IndexPresetComboBox = new ComboBox();
             IndexPresetLabel = new Label();
             menuStrip1 = new MenuStrip();
-            réglagesToolStripMenuItem = new ToolStripMenuItem();
             themesToolStripMenuItem = new ToolStripMenuItem();
+            clearToolStripMenuItem = new ToolStripMenuItem();
+            blackToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel3 = new TableLayoutPanel();
             label1 = new Label();
@@ -101,7 +105,7 @@
             // 
             splitContainer1.Panel1.BackColor = Color.White;
             splitContainer1.Panel1.Controls.Add(tableLayoutPanel1);
-            splitContainer1.Panel1MinSize = 444;
+            splitContainer1.Panel1MinSize = 350;
             // 
             // splitContainer1.Panel2
             // 
@@ -113,13 +117,15 @@
             splitContainer1.Panel2.Controls.Add(IndexGroupBox);
             splitContainer1.Panel2.Controls.Add(tableLayoutPanel6);
             splitContainer1.Panel2.Padding = new Padding(5, 0, 3, 0);
-            splitContainer1.Size = new Size(884, 776);
-            splitContainer1.SplitterDistance = 519;
+            splitContainer1.Panel2MinSize = 200;
+            splitContainer1.Size = new Size(934, 776);
+            splitContainer1.SplitterDistance = 502;
             splitContainer1.SplitterWidth = 3;
             splitContainer1.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.Transparent;
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 0, 0);
@@ -131,7 +137,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(519, 776);
+            tableLayoutPanel1.Size = new Size(502, 776);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -147,19 +153,20 @@
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(519, 40);
+            tableLayoutPanel2.Size = new Size(502, 40);
             tableLayoutPanel2.TabIndex = 0;
             // 
             // UrlButton
             // 
-            UrlButton.BackgroundImage = Properties.Resources.magnify_icon_black;
             UrlButton.BackgroundImageLayout = ImageLayout.Zoom;
             UrlButton.Dock = DockStyle.Fill;
+            UrlButton.Font = new Font("Segoe MDL2 Assets", 17F, FontStyle.Regular, GraphicsUnit.Point);
             UrlButton.Location = new Point(1, 0);
             UrlButton.Margin = new Padding(1, 0, 0, 1);
             UrlButton.Name = "UrlButton";
             UrlButton.Size = new Size(39, 39);
             UrlButton.TabIndex = 0;
+            UrlButton.Text = "";
             UrlButton.UseVisualStyleBackColor = true;
             UrlButton.Click += UrlButton_Click;
             // 
@@ -171,20 +178,20 @@
             UrlBox.Margin = new Padding(0);
             UrlBox.Name = "UrlBox";
             UrlBox.PlaceholderText = "Novel Index Page URL";
-            UrlBox.Size = new Size(479, 37);
+            UrlBox.Size = new Size(462, 37);
             UrlBox.TabIndex = 1;
             UrlBox.KeyUp += UrlBox_KeyUp;
             // 
             // webView
             // 
-            webView.AllowExternalDrop = true;
+            webView.AllowExternalDrop = false;
             webView.CreationProperties = null;
             webView.DefaultBackgroundColor = Color.White;
             webView.Dock = DockStyle.Fill;
             webView.Location = new Point(2, 40);
             webView.Margin = new Padding(2, 0, 0, 0);
             webView.Name = "webView";
-            webView.Size = new Size(517, 736);
+            webView.Size = new Size(500, 736);
             webView.Source = new Uri("https://www.google.fr", UriKind.Absolute);
             webView.TabIndex = 1;
             webView.ZoomFactor = 1D;
@@ -193,36 +200,37 @@
             // 
             OutputTextBox.Dock = DockStyle.Top;
             OutputTextBox.Font = new Font("Microsoft Sans Serif", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
-            OutputTextBox.Location = new Point(5, 640);
+            OutputTextBox.Location = new Point(5, 680);
             OutputTextBox.MinimumSize = new Size(0, 130);
             OutputTextBox.Multiline = true;
             OutputTextBox.Name = "OutputTextBox";
             OutputTextBox.ScrollBars = ScrollBars.Vertical;
-            OutputTextBox.Size = new Size(354, 130);
+            OutputTextBox.Size = new Size(421, 130);
             OutputTextBox.TabIndex = 7;
             OutputTextBox.Text = "Null";
             // 
             // ProcessButton
             // 
             ProcessButton.Dock = DockStyle.Top;
-            ProcessButton.Location = new Point(5, 590);
+            ProcessButton.Location = new Point(5, 630);
             ProcessButton.MinimumSize = new Size(0, 50);
             ProcessButton.Name = "ProcessButton";
-            ProcessButton.Size = new Size(354, 50);
+            ProcessButton.Size = new Size(421, 50);
             ProcessButton.TabIndex = 6;
-            ProcessButton.Text = "Process";
+            ProcessButton.Text = "Compile content in Temp dir";
             ProcessButton.UseVisualStyleBackColor = true;
+            ProcessButton.Click += ProcessButton_Click;
             // 
             // PreviewButton
             // 
             PreviewButton.Dock = DockStyle.Top;
-            PreviewButton.Location = new Point(5, 540);
+            PreviewButton.Location = new Point(5, 580);
             PreviewButton.Margin = new Padding(3, 10, 3, 3);
             PreviewButton.MinimumSize = new Size(0, 50);
             PreviewButton.Name = "PreviewButton";
-            PreviewButton.Size = new Size(354, 50);
+            PreviewButton.Size = new Size(421, 50);
             PreviewButton.TabIndex = 5;
-            PreviewButton.Text = "Preview";
+            PreviewButton.Text = "Scrape Website";
             PreviewButton.UseVisualStyleBackColor = true;
             PreviewButton.Click += PreviewButton_Click;
             // 
@@ -230,11 +238,11 @@
             // 
             PageGroupBox.Controls.Add(tableLayoutPanel5);
             PageGroupBox.Dock = DockStyle.Top;
-            PageGroupBox.Location = new Point(5, 370);
+            PageGroupBox.Location = new Point(5, 410);
             PageGroupBox.Margin = new Padding(3, 3, 3, 10);
             PageGroupBox.MinimumSize = new Size(0, 170);
             PageGroupBox.Name = "PageGroupBox";
-            PageGroupBox.Size = new Size(354, 170);
+            PageGroupBox.Size = new Size(421, 170);
             PageGroupBox.TabIndex = 4;
             PageGroupBox.TabStop = false;
             PageGroupBox.Text = "Page Parsing";
@@ -244,7 +252,7 @@
             // 
             tableLayoutPanel5.BackColor = Color.Transparent;
             tableLayoutPanel5.ColumnCount = 2;
-            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 251F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
             tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel5.Controls.Add(PageParentLabel, 0, 0);
             tableLayoutPanel5.Controls.Add(PageParentTextBox, 1, 0);
@@ -262,76 +270,77 @@
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel5.Size = new Size(348, 134);
+            tableLayoutPanel5.Size = new Size(415, 134);
             tableLayoutPanel5.TabIndex = 2;
             // 
             // PageParentLabel
             // 
             PageParentLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            PageParentLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            PageParentLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             PageParentLabel.Location = new Point(5, 1);
             PageParentLabel.Margin = new Padding(5, 0, 5, 0);
             PageParentLabel.Name = "PageParentLabel";
-            PageParentLabel.Size = new Size(241, 38);
+            PageParentLabel.Size = new Size(170, 38);
             PageParentLabel.TabIndex = 0;
             PageParentLabel.Text = "Parent block";
-            PageParentLabel.TextAlign = ContentAlignment.MiddleCenter;
+            PageParentLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // PageParentTextBox
             // 
             PageParentTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             PageParentTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            PageParentTextBox.Location = new Point(251, 7);
+            PageParentTextBox.Location = new Point(180, 7);
             PageParentTextBox.Margin = new Padding(0);
             PageParentTextBox.Name = "PageParentTextBox";
             PageParentTextBox.PlaceholderText = "div.aa";
-            PageParentTextBox.Size = new Size(87, 26);
+            PageParentTextBox.Size = new Size(225, 26);
             PageParentTextBox.TabIndex = 1;
             // 
             // PageExcludedLabel
             // 
             PageExcludedLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            PageExcludedLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            PageExcludedLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             PageExcludedLabel.Location = new Point(5, 41);
             PageExcludedLabel.Margin = new Padding(5, 0, 5, 0);
             PageExcludedLabel.Name = "PageExcludedLabel";
-            PageExcludedLabel.Size = new Size(241, 38);
+            PageExcludedLabel.Size = new Size(170, 38);
             PageExcludedLabel.TabIndex = 0;
-            PageExcludedLabel.Text = "Excluded(separated by , )";
-            PageExcludedLabel.TextAlign = ContentAlignment.MiddleCenter;
+            PageExcludedLabel.Text = "Excluded(split by , )";
+            PageExcludedLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // PageExcludedTextBox
             // 
             PageExcludedTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             PageExcludedTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            PageExcludedTextBox.Location = new Point(251, 47);
+            PageExcludedTextBox.Location = new Point(180, 47);
             PageExcludedTextBox.Margin = new Padding(0);
             PageExcludedTextBox.Name = "PageExcludedTextBox";
             PageExcludedTextBox.PlaceholderText = "div.aa";
-            PageExcludedTextBox.Size = new Size(87, 26);
+            PageExcludedTextBox.Size = new Size(225, 26);
             PageExcludedTextBox.TabIndex = 1;
             // 
             // PageCloudFlareProtectedLabel
             // 
             PageCloudFlareProtectedLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            PageCloudFlareProtectedLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            PageCloudFlareProtectedLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             PageCloudFlareProtectedLabel.Location = new Point(5, 81);
             PageCloudFlareProtectedLabel.Margin = new Padding(5, 0, 5, 0);
             PageCloudFlareProtectedLabel.Name = "PageCloudFlareProtectedLabel";
-            PageCloudFlareProtectedLabel.Size = new Size(241, 38);
+            PageCloudFlareProtectedLabel.Size = new Size(170, 38);
             PageCloudFlareProtectedLabel.TabIndex = 0;
             PageCloudFlareProtectedLabel.Text = "Protected by CloudFlare";
-            PageCloudFlareProtectedLabel.TextAlign = ContentAlignment.MiddleCenter;
+            PageCloudFlareProtectedLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // PageCloudFlareProtectedComboBox
             // 
             PageCloudFlareProtectedComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            PageCloudFlareProtectedComboBox.FlatStyle = FlatStyle.Popup;
             PageCloudFlareProtectedComboBox.FormattingEnabled = true;
             PageCloudFlareProtectedComboBox.Items.AddRange(new object[] { "No", "Yes" });
-            PageCloudFlareProtectedComboBox.Location = new Point(251, 84);
+            PageCloudFlareProtectedComboBox.Location = new Point(180, 84);
             PageCloudFlareProtectedComboBox.Margin = new Padding(0, 4, 0, 0);
             PageCloudFlareProtectedComboBox.Name = "PageCloudFlareProtectedComboBox";
-            PageCloudFlareProtectedComboBox.Size = new Size(87, 33);
+            PageCloudFlareProtectedComboBox.Size = new Size(225, 33);
             PageCloudFlareProtectedComboBox.TabIndex = 1;
             // 
             // IndexGroupBox
@@ -343,9 +352,9 @@
             IndexGroupBox.Dock = DockStyle.Top;
             IndexGroupBox.ForeColor = Color.Black;
             IndexGroupBox.Location = new Point(5, 40);
-            IndexGroupBox.MinimumSize = new Size(0, 330);
+            IndexGroupBox.MinimumSize = new Size(0, 370);
             IndexGroupBox.Name = "IndexGroupBox";
-            IndexGroupBox.Size = new Size(354, 330);
+            IndexGroupBox.Size = new Size(421, 370);
             IndexGroupBox.TabIndex = 0;
             IndexGroupBox.TabStop = false;
             IndexGroupBox.Text = "Index Parser";
@@ -354,11 +363,11 @@
             // tableLayoutPanel4
             // 
             tableLayoutPanel4.ColumnCount = 2;
-            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 251F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180F));
             tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel4.Controls.Add(IndexParentLabel, 0, 1);
             tableLayoutPanel4.Controls.Add(IndexParentTextBox, 1, 1);
-            tableLayoutPanel4.Controls.Add(IndexObject, 0, 2);
+            tableLayoutPanel4.Controls.Add(IndexObjectLabel, 0, 2);
             tableLayoutPanel4.Controls.Add(IndexObjectTextBox, 1, 2);
             tableLayoutPanel4.Controls.Add(IndexParsingObjectLabel, 0, 3);
             tableLayoutPanel4.Controls.Add(IndexParsingObjectTextBox, 1, 3);
@@ -370,12 +379,15 @@
             tableLayoutPanel4.Controls.Add(IndexParsingOrderComboBox, 1, 6);
             tableLayoutPanel4.Controls.Add(IndexTitleLabel, 0, 0);
             tableLayoutPanel4.Controls.Add(IndexTitleTextBox, 1, 0);
+            tableLayoutPanel4.Controls.Add(IndexImageLabel, 0, 7);
+            tableLayoutPanel4.Controls.Add(IndexImageTextBox, 1, 7);
             tableLayoutPanel4.Dock = DockStyle.Fill;
             tableLayoutPanel4.Location = new Point(3, 33);
             tableLayoutPanel4.Margin = new Padding(5);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.Padding = new Padding(0, 0, 10, 0);
-            tableLayoutPanel4.RowCount = 8;
+            tableLayoutPanel4.RowCount = 9;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
@@ -384,169 +396,193 @@
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel4.Size = new Size(348, 294);
+            tableLayoutPanel4.Size = new Size(415, 334);
             tableLayoutPanel4.TabIndex = 1;
             // 
             // IndexParentLabel
             // 
             IndexParentLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexParentLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexParentLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             IndexParentLabel.Location = new Point(5, 41);
             IndexParentLabel.Margin = new Padding(5, 0, 5, 0);
             IndexParentLabel.Name = "IndexParentLabel";
-            IndexParentLabel.Size = new Size(241, 38);
+            IndexParentLabel.Size = new Size(170, 38);
             IndexParentLabel.TabIndex = 0;
             IndexParentLabel.Text = "Parent block";
-            IndexParentLabel.TextAlign = ContentAlignment.MiddleCenter;
+            IndexParentLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexParentTextBox
             // 
             IndexParentTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             IndexParentTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexParentTextBox.Location = new Point(251, 47);
+            IndexParentTextBox.Location = new Point(180, 47);
             IndexParentTextBox.Margin = new Padding(0);
             IndexParentTextBox.Name = "IndexParentTextBox";
             IndexParentTextBox.PlaceholderText = "ul";
-            IndexParentTextBox.Size = new Size(87, 26);
+            IndexParentTextBox.Size = new Size(225, 26);
             IndexParentTextBox.TabIndex = 1;
             // 
-            // IndexObject
+            // IndexObjectLabel
             // 
-            IndexObject.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexObject.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexObject.Location = new Point(5, 81);
-            IndexObject.Margin = new Padding(5, 0, 5, 0);
-            IndexObject.Name = "IndexObject";
-            IndexObject.Size = new Size(241, 38);
-            IndexObject.TabIndex = 0;
-            IndexObject.Text = "Line Object";
-            IndexObject.TextAlign = ContentAlignment.MiddleCenter;
+            IndexObjectLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            IndexObjectLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexObjectLabel.Location = new Point(5, 81);
+            IndexObjectLabel.Margin = new Padding(5, 0, 5, 0);
+            IndexObjectLabel.Name = "IndexObjectLabel";
+            IndexObjectLabel.Size = new Size(170, 38);
+            IndexObjectLabel.TabIndex = 0;
+            IndexObjectLabel.Text = "Line Object";
+            IndexObjectLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexObjectTextBox
             // 
             IndexObjectTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             IndexObjectTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexObjectTextBox.Location = new Point(251, 87);
+            IndexObjectTextBox.Location = new Point(180, 87);
             IndexObjectTextBox.Margin = new Padding(0);
             IndexObjectTextBox.Name = "IndexObjectTextBox";
             IndexObjectTextBox.PlaceholderText = "li";
-            IndexObjectTextBox.Size = new Size(87, 26);
+            IndexObjectTextBox.Size = new Size(225, 26);
             IndexObjectTextBox.TabIndex = 1;
             // 
             // IndexParsingObjectLabel
             // 
             IndexParsingObjectLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexParsingObjectLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexParsingObjectLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             IndexParsingObjectLabel.Location = new Point(5, 121);
             IndexParsingObjectLabel.Margin = new Padding(5, 0, 5, 0);
             IndexParsingObjectLabel.Name = "IndexParsingObjectLabel";
-            IndexParsingObjectLabel.Size = new Size(241, 38);
+            IndexParsingObjectLabel.Size = new Size(170, 38);
             IndexParsingObjectLabel.TabIndex = 0;
             IndexParsingObjectLabel.Text = "RegExp Parsing Object";
-            IndexParsingObjectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            IndexParsingObjectLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexParsingObjectTextBox
             // 
             IndexParsingObjectTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             IndexParsingObjectTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexParsingObjectTextBox.Location = new Point(251, 127);
+            IndexParsingObjectTextBox.Location = new Point(180, 127);
             IndexParsingObjectTextBox.Margin = new Padding(0);
             IndexParsingObjectTextBox.Name = "IndexParsingObjectTextBox";
             IndexParsingObjectTextBox.PlaceholderText = "<a href=\"(.*)\">(.*)</a>";
-            IndexParsingObjectTextBox.Size = new Size(87, 26);
+            IndexParsingObjectTextBox.Size = new Size(225, 26);
             IndexParsingObjectTextBox.TabIndex = 1;
             // 
             // IndexTemplateLinkObjectLabel
             // 
             IndexTemplateLinkObjectLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexTemplateLinkObjectLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexTemplateLinkObjectLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             IndexTemplateLinkObjectLabel.Location = new Point(5, 161);
             IndexTemplateLinkObjectLabel.Margin = new Padding(5, 0, 5, 0);
             IndexTemplateLinkObjectLabel.Name = "IndexTemplateLinkObjectLabel";
-            IndexTemplateLinkObjectLabel.Size = new Size(241, 38);
+            IndexTemplateLinkObjectLabel.Size = new Size(170, 38);
             IndexTemplateLinkObjectLabel.TabIndex = 0;
             IndexTemplateLinkObjectLabel.Text = "Template Link Object";
-            IndexTemplateLinkObjectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            IndexTemplateLinkObjectLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexTemplateLinkObjectTextBox
             // 
             IndexTemplateLinkObjectTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             IndexTemplateLinkObjectTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexTemplateLinkObjectTextBox.Location = new Point(251, 167);
+            IndexTemplateLinkObjectTextBox.Location = new Point(180, 167);
             IndexTemplateLinkObjectTextBox.Margin = new Padding(0);
             IndexTemplateLinkObjectTextBox.Name = "IndexTemplateLinkObjectTextBox";
             IndexTemplateLinkObjectTextBox.PlaceholderText = "$1";
-            IndexTemplateLinkObjectTextBox.Size = new Size(87, 26);
+            IndexTemplateLinkObjectTextBox.Size = new Size(225, 26);
             IndexTemplateLinkObjectTextBox.TabIndex = 1;
             // 
             // IndexTemplateNameObjectLabel
             // 
             IndexTemplateNameObjectLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexTemplateNameObjectLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexTemplateNameObjectLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             IndexTemplateNameObjectLabel.Location = new Point(5, 201);
             IndexTemplateNameObjectLabel.Margin = new Padding(5, 0, 5, 0);
             IndexTemplateNameObjectLabel.Name = "IndexTemplateNameObjectLabel";
-            IndexTemplateNameObjectLabel.Size = new Size(241, 38);
+            IndexTemplateNameObjectLabel.Size = new Size(170, 38);
             IndexTemplateNameObjectLabel.TabIndex = 0;
             IndexTemplateNameObjectLabel.Text = "Template Name Object";
-            IndexTemplateNameObjectLabel.TextAlign = ContentAlignment.MiddleCenter;
+            IndexTemplateNameObjectLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexTemplateNameObjectTextBox
             // 
             IndexTemplateNameObjectTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             IndexTemplateNameObjectTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexTemplateNameObjectTextBox.Location = new Point(251, 207);
+            IndexTemplateNameObjectTextBox.Location = new Point(180, 207);
             IndexTemplateNameObjectTextBox.Margin = new Padding(0);
             IndexTemplateNameObjectTextBox.Name = "IndexTemplateNameObjectTextBox";
             IndexTemplateNameObjectTextBox.PlaceholderText = "$2";
-            IndexTemplateNameObjectTextBox.Size = new Size(87, 26);
+            IndexTemplateNameObjectTextBox.Size = new Size(225, 26);
             IndexTemplateNameObjectTextBox.TabIndex = 1;
             // 
             // IndexParsingOrderLabel
             // 
             IndexParsingOrderLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexParsingOrderLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexParsingOrderLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             IndexParsingOrderLabel.Location = new Point(5, 241);
             IndexParsingOrderLabel.Margin = new Padding(5, 0, 5, 0);
             IndexParsingOrderLabel.Name = "IndexParsingOrderLabel";
-            IndexParsingOrderLabel.Size = new Size(241, 38);
+            IndexParsingOrderLabel.Size = new Size(170, 38);
             IndexParsingOrderLabel.TabIndex = 0;
             IndexParsingOrderLabel.Text = "Parsing Order Object";
-            IndexParsingOrderLabel.TextAlign = ContentAlignment.MiddleCenter;
+            IndexParsingOrderLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexParsingOrderComboBox
             // 
             IndexParsingOrderComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            IndexParsingOrderComboBox.FlatStyle = FlatStyle.Popup;
             IndexParsingOrderComboBox.FormattingEnabled = true;
             IndexParsingOrderComboBox.Items.AddRange(new object[] { "Ascendent", "Descendent" });
-            IndexParsingOrderComboBox.Location = new Point(251, 244);
+            IndexParsingOrderComboBox.Location = new Point(180, 244);
             IndexParsingOrderComboBox.Margin = new Padding(0, 4, 0, 0);
             IndexParsingOrderComboBox.Name = "IndexParsingOrderComboBox";
-            IndexParsingOrderComboBox.Size = new Size(87, 33);
+            IndexParsingOrderComboBox.Size = new Size(225, 33);
             IndexParsingOrderComboBox.TabIndex = 1;
             // 
             // IndexTitleLabel
             // 
             IndexTitleLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            IndexTitleLabel.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexTitleLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
             IndexTitleLabel.Location = new Point(5, 1);
             IndexTitleLabel.Margin = new Padding(5, 0, 5, 0);
             IndexTitleLabel.Name = "IndexTitleLabel";
-            IndexTitleLabel.Size = new Size(241, 38);
+            IndexTitleLabel.Size = new Size(170, 38);
             IndexTitleLabel.TabIndex = 0;
             IndexTitleLabel.Text = "Title block";
-            IndexTitleLabel.TextAlign = ContentAlignment.MiddleCenter;
+            IndexTitleLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // IndexTitleTextBox
             // 
             IndexTitleTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             IndexTitleTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            IndexTitleTextBox.Location = new Point(251, 7);
+            IndexTitleTextBox.Location = new Point(180, 7);
             IndexTitleTextBox.Margin = new Padding(0);
             IndexTitleTextBox.Name = "IndexTitleTextBox";
             IndexTitleTextBox.PlaceholderText = "ul";
-            IndexTitleTextBox.Size = new Size(87, 26);
+            IndexTitleTextBox.Size = new Size(225, 26);
             IndexTitleTextBox.TabIndex = 1;
+            // 
+            // IndexImageLabel
+            // 
+            IndexImageLabel.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            IndexImageLabel.Font = new Font("Yu Gothic", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexImageLabel.Location = new Point(5, 281);
+            IndexImageLabel.Margin = new Padding(5, 0, 5, 0);
+            IndexImageLabel.Name = "IndexImageLabel";
+            IndexImageLabel.Size = new Size(170, 38);
+            IndexImageLabel.TabIndex = 0;
+            IndexImageLabel.Text = "Image Object";
+            IndexImageLabel.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // IndexImageTextBox
+            // 
+            IndexImageTextBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            IndexImageTextBox.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            IndexImageTextBox.Location = new Point(180, 287);
+            IndexImageTextBox.Margin = new Padding(0);
+            IndexImageTextBox.Name = "IndexImageTextBox";
+            IndexImageTextBox.PlaceholderText = "$2";
+            IndexImageTextBox.Size = new Size(225, 26);
+            IndexImageTextBox.TabIndex = 1;
             // 
             // tableLayoutPanel6
             // 
@@ -560,17 +596,18 @@
             tableLayoutPanel6.Name = "tableLayoutPanel6";
             tableLayoutPanel6.RowCount = 1;
             tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Size = new Size(354, 40);
+            tableLayoutPanel6.Size = new Size(421, 40);
             tableLayoutPanel6.TabIndex = 2;
             // 
             // IndexPresetComboBox
             // 
             IndexPresetComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            IndexPresetComboBox.FlatStyle = FlatStyle.Popup;
             IndexPresetComboBox.FormattingEnabled = true;
-            IndexPresetComboBox.Location = new Point(177, 4);
+            IndexPresetComboBox.Location = new Point(210, 4);
             IndexPresetComboBox.Margin = new Padding(0, 4, 10, 0);
             IndexPresetComboBox.Name = "IndexPresetComboBox";
-            IndexPresetComboBox.Size = new Size(167, 33);
+            IndexPresetComboBox.Size = new Size(201, 33);
             IndexPresetComboBox.TabIndex = 2;
             // 
             // IndexPresetLabel
@@ -580,7 +617,7 @@
             IndexPresetLabel.Location = new Point(5, 1);
             IndexPresetLabel.Margin = new Padding(5, 0, 5, 0);
             IndexPresetLabel.Name = "IndexPresetLabel";
-            IndexPresetLabel.Size = new Size(167, 38);
+            IndexPresetLabel.Size = new Size(200, 38);
             IndexPresetLabel.TabIndex = 1;
             IndexPresetLabel.Text = "Preset";
             IndexPresetLabel.TextAlign = ContentAlignment.MiddleCenter;
@@ -588,27 +625,36 @@
             // menuStrip1
             // 
             menuStrip1.Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { réglagesToolStripMenuItem, themesToolStripMenuItem, aboutToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { themesToolStripMenuItem, aboutToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Padding = new Padding(9, 3, 0, 3);
-            menuStrip1.Size = new Size(884, 35);
+            menuStrip1.Size = new Size(934, 35);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
             // 
-            // réglagesToolStripMenuItem
-            // 
-            réglagesToolStripMenuItem.Name = "réglagesToolStripMenuItem";
-            réglagesToolStripMenuItem.Size = new Size(97, 29);
-            réglagesToolStripMenuItem.Text = "Settings";
-            réglagesToolStripMenuItem.Click += réglagesToolStripMenuItem_Click;
-            // 
             // themesToolStripMenuItem
             // 
+            themesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { clearToolStripMenuItem, blackToolStripMenuItem });
             themesToolStripMenuItem.Name = "themesToolStripMenuItem";
             themesToolStripMenuItem.Size = new Size(95, 29);
             themesToolStripMenuItem.Text = "Themes";
-            themesToolStripMenuItem.Click += themesToolStripMenuItem_Click;
+            // 
+            // clearToolStripMenuItem
+            // 
+            clearToolStripMenuItem.Checked = true;
+            clearToolStripMenuItem.CheckState = CheckState.Checked;
+            clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            clearToolStripMenuItem.Size = new Size(133, 30);
+            clearToolStripMenuItem.Text = "Clear";
+            clearToolStripMenuItem.Click += clearToolStripMenuItem_Click;
+            // 
+            // blackToolStripMenuItem
+            // 
+            blackToolStripMenuItem.Name = "blackToolStripMenuItem";
+            blackToolStripMenuItem.Size = new Size(133, 30);
+            blackToolStripMenuItem.Text = "Black";
+            blackToolStripMenuItem.Click += blackToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
@@ -658,13 +704,14 @@
             AutoScaleDimensions = new SizeF(11F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(884, 811);
+            ClientSize = new Size(934, 811);
             Controls.Add(splitContainer1);
             Controls.Add(menuStrip1);
             Font = new Font("Yu Gothic", 14F, FontStyle.Regular, GraphicsUnit.Point);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Margin = new Padding(5);
-            MinimumSize = new Size(900, 850);
+            MinimumSize = new Size(950, 850);
             Name = "Form1";
             Text = "Form1";
             splitContainer1.Panel1.ResumeLayout(false);
@@ -699,14 +746,13 @@
         private TextBox UrlBox;
         private Microsoft.Web.WebView2.WinForms.WebView2 webView;
         private MenuStrip menuStrip1;
-        private ToolStripMenuItem réglagesToolStripMenuItem;
         private ToolStripMenuItem themesToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private GroupBox IndexGroupBox;
         private TableLayoutPanel tableLayoutPanel4;
         private TextBox IndexParentTextBox;
         private Label IndexParentLabel;
-        private Label IndexObject;
+        private Label IndexObjectLabel;
         private TableLayoutPanel tableLayoutPanel3;
         private Label label1;
         private TextBox textBox1;
@@ -735,5 +781,9 @@
         private Label IndexTitleLabel;
         private TextBox IndexTitleTextBox;
         private Label PageCloudFlareProtectedLabel;
+        private Label IndexImageLabel;
+        private TextBox IndexImageTextBox;
+        private ToolStripMenuItem clearToolStripMenuItem;
+        private ToolStripMenuItem blackToolStripMenuItem;
     }
 }

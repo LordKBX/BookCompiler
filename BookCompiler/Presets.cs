@@ -16,6 +16,7 @@ namespace BookCompiler
         public string IndexTemplateName { get; set; } = "";
         public string IndexTemplateLink { get; set; } = "";
         public bool IndexOrderDescendent { get; set; } = false;
+        public string IndexImageObject { get; set; } = "";
 
         public string PageParent { get; set; } = "";
         public string PageExcluded { get; set; } = "";
