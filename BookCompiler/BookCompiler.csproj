@@ -12,12 +12,38 @@
     <FileVersion>1.0.1.0</FileVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <Authors>LordKBX Workshop</Authors>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageTags>ebook</PackageTags>
+    <RepositoryUrl>https://github.com/LordKBX/BookCompiler</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/LordKBX/BookCompiler</PackageProjectUrl>
+    <Copyright>Copyright (c) 2023, LordKBX Workshop</Copyright>
+    <Title>BookCompiler</Title>
+    <Description>Compile Ebook from specified novel website, 
+for website protected with cloudflare the app work in semi-auto mode, requiring confirmation if webpage correctly loaded</Description>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="ProfilesManager.resx~RF9eb9992.TMP" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1901.177" />
